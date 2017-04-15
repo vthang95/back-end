@@ -30,9 +30,9 @@ app.get('/image/get', (req, res) => {
     for (let i = 0; i < imageInfoObj.length; i++) {
       contentWillShowUp += `
         <div style="float: left; margin: 2px 2px 20px 2px">
-          <div style="float:left;width: 100%;background-color: white; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"> 
+          <div style="float:left;width: 100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 8px 8px 0px 0px"> 
             <img src="${ imageInfoObj[i].imageLink }" style="border-radius: 8px 8px 0px 0px" width="auto" height="200">
-            <div style="text-align: center; padding: 10px 0px 1px 0px">
+            <div style="background-color: white; text-align: center; padding: 10px 0px 1px 0px">
               <strong>${ imageInfoObj[i].name }</strong>
               <p>${ imageInfoObj[i].description }</p>
             </div>
