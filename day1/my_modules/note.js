@@ -1,10 +1,10 @@
 const fs = require('fs');
 
-const saveData = singleData => {
+const saveData = (singleData, path) => {
   notes = [];
 
   try {
-    let noteString = fs.readFileSync('./imageData.json');
+    let noteString = fs.readFileSync(path);
     notes = JSON.parse(noteString);
   } catch (e) {}
 
@@ -16,7 +16,7 @@ const saveData = singleData => {
 
   if (duplicateNote.length === 0) {
     notes.push(singleData);
-    fs.writeFileSync('./imageData.json', JSON.stringify(notes));
+    fs.writeFileSync(path, JSON.stringify(notes));
   } else {
     return false;
   }

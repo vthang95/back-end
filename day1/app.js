@@ -18,7 +18,7 @@ app.get('/image/add', (req, res) => {
     imageLink: req.query.imageLink,
     description: req.query.description
   }
-  let savedData = _fs.saveData(imageInfo);
+  let savedData = _fs.saveData(imageInfo, './imageData.json');
   if (savedData) res.send('Success!');
   else res.send('This image is already exists! Please try another one!');
 });
