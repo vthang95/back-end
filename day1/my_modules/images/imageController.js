@@ -65,13 +65,12 @@ const getImageBySlugName = (slugName) => {
 const findAndModifyImageBySlugName = (slugName, image) => {
   try {
     let collection = JSON.parse(fs.readFileSync(imageDataPath, 'utf-8'));
-    for (let i = 0; i < collection.length; i++) {
-      if (slugName != image.slugName || collection[i].name != image.name) return collection;
-    }
 
     for (let i = 0; i < collection.length; i++) {
+      if (image.name === collection[i].name && collection[i].slugName != slugName) {
+        break;
+      };
       if (collection[i].slugName === slugName) {
-        console.log('fucl')
         collection.splice(collection.indexOf(collection[i]), 1, image);
       }
     }

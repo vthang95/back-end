@@ -24,15 +24,33 @@ myApp.controller('AppController', ($scope, $http) => {
 
   $scope.removeIsActive = true;
   $scope.editContentIsActive = true;
+  $scope.inputIsActive = true;
+  $scope.addImageIsActive = true;
+  $scope.doneIsActive = true;
 
-  $scope.enableEdit = () => {
-    $scope.removeIsActive = false;
+  $scope.done = () => {
+    $scope.editContentIsActive = true;
+    $scope.inputIsActive = true;
+    $scope.addImageIsActive = true;
+    $scope.doneIsActive = true;
+    $scope.image = {};
   };
 
-  $scope.disableEdit = () => {
-    $scope.removeIsActive = true;
-    $scope.editContentIsActive = true;
+  $scope.clearForm = () => {
     $scope.image = {};
+  };
+
+  $scope.showAddImage = () => {
+    $scope.inputIsActive = false;
+    $scope.addImageIsActive = false;
+    $scope.editContentIsActive = true;
+    $scope.doneIsActive = false;
+  };
+  $scope.showEdit = () => {
+    $scope.inputIsActive = false;
+    $scope.editContentIsActive = false;
+    $scope.addImageIsActive = true;
+    $scope.doneIsActive = false;
   };
 
   $scope.addImage = () => {

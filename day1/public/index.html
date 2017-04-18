@@ -37,19 +37,32 @@
         <table class="add-image-table">
           <tr>
             <td>
-              <input class="form-control" ng-model="image.name" name="name" maxlength="40" placeholder="Name" required/>
+              <button class="btn btn-primary" ng-click="showAddImage()" ng-hide="!removeIsActive">Add Image</button>
+              <button class="btn btn-info" ng-click="showEdit()" ng-hide="!removeIsActive">Edit</button>
+              <button class="btn btn-danger" ng-click="done()" ng-hide="doneIsActive">Done</button>
+
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <h4 ng-hide="addImageIsActive">NOTE: You can not add images with the same name!</h4>
+              <h4 ng-hide="editContentIsActive">NOTE: You can not duplicate images with the same name!</h4>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <input class="form-control" ng-model="image.name" name="name" maxlength="40" placeholder="Name" ng-hide="inputIsActive" />
             </td>
             <td>
-              <input class="form-control" ng-model="image.imageLink" name="imageLink" placeholder="Image Link" />
+              <input class="form-control" ng-model="image.imageLink" name="imageLink" placeholder="Image Link" ng-hide="inputIsActive" />
             </td>
             <td>
-              <input class="form-control" ng-model="image.description" name="description" maxlength="40" placeholder="Description" />
+              <input class="form-control" ng-model="image.description" name="description" maxlength="40" placeholder="Description" ng-hide="inputIsActive" />
             </td>
             <td>
-              <button class="btn btn-primary" ng-click="addImage()" ng-hide="!removeIsActive">Add Image</button>
+              <button class="btn btn-primary" ng-click="addImage()" ng-hide="addImageIsActive">Add</button>
               <button class="btn btn-info" ng-click="update()" ng-hide="editContentIsActive">Update</button>
-              <button class="btn btn-info" ng-click="enableEdit()" ng-hide="!removeIsActive">Edit</button>
-              <button class="btn btn-danger" ng-click="disableEdit()" ng-hide="removeIsActive">Done</button>
+              <button class="btn btn-info" ng-click="clearForm()" ng-hide="editContentIsActive">Clear</button>
             </td>
           </tr>
         </table>
@@ -62,8 +75,8 @@
           <div class="image-textbox">
             <strong>{{ image.name }}</strong>
             <p>{{ image.description }}</p>
-            <button class="btn btn-danger" ng-click="removeImage(image)" ng-hide="removeIsActive"> X </button>
-            <button class="btn btn-warning" ng-click="edit(image)" ng-hide="removeIsActive"> Edit </button>
+            <button class="btn btn-danger" ng-click="removeImage(image)" ng-hide="editContentIsActive"> X </button>
+            <button class="btn btn-warning" ng-click="edit(image)" ng-hide="editContentIsActive"> Edit </button>
           </div>
         </div>
       </div>
