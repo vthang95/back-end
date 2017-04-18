@@ -18,7 +18,7 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-default" ng-controller="AppController">
     <div class="container-fluid nav-bg">
       <div class="navbar-header">
         <a class="navbar-brand brand-text" href="#"><strong>TechKids</strong></a>
@@ -47,7 +47,7 @@
             </td>
             <td>
               <button class="btn btn-primary" ng-click="addImage()" ng-hide="!removeIsActive">Add Image</button>
-              <button class="btn btn-info" ng-click="enableEdit()" ng-hide="editContentIsActive">Update</button>
+              <button class="btn btn-info" ng-click="update()" ng-hide="editContentIsActive">Update</button>
               <button class="btn btn-info" ng-click="enableEdit()" ng-hide="!removeIsActive">Edit</button>
               <button class="btn btn-danger" ng-click="disableEdit()" ng-hide="removeIsActive">Done</button>
             </td>
@@ -58,7 +58,7 @@
     <div ng-repeat="image in imageList">
       <div class="image-frame">
         <div class="image-style">
-          <img ng-src="{{ image.imageLink }}" style="border-radius: 8px 8px 0px 0px" width="auto" height="150">
+          <img ng-src="{{ image.imageLink }}" class="image" width="auto" height="150" ng-click="popup()">
           <div class="image-textbox">
             <strong>{{ image.name }}</strong>
             <p>{{ image.description }}</p>
@@ -68,6 +68,7 @@
         </div>
       </div>
     </div>
+  </div>
 </body>
 
 </html>

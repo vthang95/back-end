@@ -1,9 +1,18 @@
+body {
+    background-color: #f1f1ef;
+}
+
 .nav-bg {
     background-color: #40E0D0;
 }
 
 .brand-text {
     color: #fff!important;
+}
+
+.image {
+    border-radius: 8px 8px 0px 0px;
+    cursor: pointer;
 }
 
 .image-frame {
