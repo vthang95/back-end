@@ -1,0 +1,38 @@
+.nav-bg {
+    background-color: #40E0D0;
+}
+
+.brand-text {
+    color: #fff!important;
+}
+
+.image-frame {
+    float: left;
+    margin: 4px 4px 20px 4px;
+}
+
+.image-style {
+    float: left;
+    width: 100%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 8px 8px 0px 0px
+}
+
+.image-textbox {
+    background-color: white;
+    text-align: center;
+    padding: 10px 0px 1px 0px;
+}
+
+.image-menu {
+    border-bottom: 1px solid grey;
+    margin-bottom: 10px;
+}
+
+.image-menu .content {
+    padding-bottom: 5px;
+}
+
+.add-image-table td {
+    padding-right: 5px
+}
