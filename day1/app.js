@@ -53,7 +53,16 @@ app.delete('/addImage/:slugName', (req, res) => {
 app.get('/addImage/:slugName', (req, res) => {
   let slugName = req.params.slugName;
   let image = _fs.getImageBySlugName(slugName);
-  res.json(image);
+  // res.json(image);
+  var string = `<div><p>hi</p></div>`
+  console.log(slugName)
+  res.send(string)
+});
+app.get('/image/:slugName', (req, res) => {
+  let slugName = req.params.slugName;
+  let image = _fs.getImageBySlugName(slugName);
+  htmlWilShowUp = _fs.sendASingleImage(image);
+  res.send(htmlWilShowUp);
 });
 
 app.put('/addImage/:slugName', (req, res) => {

@@ -90,8 +90,14 @@ myApp.controller('AppController', ($scope, $http) => {
     });
   };
 
-  $scope.popup = () => {
-    console.log('s')
+  $scope.popup = (image) => {
+    $http({
+      method: 'GET',
+      url: '/image/' + image.slugName,
+      headers: { 'Content-Type': 'application/json' }
+    }).then((response) => {
+      window.location = '/image/' + image.slugName;
+    });
   };
 
 });

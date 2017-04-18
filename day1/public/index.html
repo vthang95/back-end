@@ -71,7 +71,7 @@
     <div ng-repeat="image in imageList">
       <div class="image-frame">
         <div class="image-style">
-          <img ng-src="{{ image.imageLink }}" class="image" width="auto" height="150" ng-click="popup()">
+          <img ng-src="{{ image.imageLink }}" class="image" width="auto" height="150" ng-click="popup(image)">
           <div class="image-textbox">
             <strong>{{ image.name }}</strong>
             <p>{{ image.description }}</p>
