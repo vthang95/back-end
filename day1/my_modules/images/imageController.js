@@ -81,18 +81,19 @@ const findAndModifyImageBySlugName = (slugName, image) => {
   }
 };
 
-const sendASingleImage = (image) => {
+const sendASingleHtmlImage = (image) => {
   html = `
     <html>
       <head>
-        <title>${ image.name }</title>  
+        <title>${ image.name }</title>
+        <link rel="stylesheet" href="/css/style.css">
       </head>
       <body>
-      <div style="margin-left: 50px">
-        <div style="float: left; margin: 2px 2px 20px 2px">
-          <div style="float:left;width: 100%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); border-radius: 8px 8px 0px 0px"> 
-            <img src="${ image.imageLink }" style="border-radius: 8px 8px 0px 0px" width="auto" height="500">
-            <div style="background-color: white; text-align: center; padding: 10px 0px 1px 0px">
+      <div style="margin: auto; width: 50%">
+        <div class="image-frame">
+          <div class="image-style">
+            <img src="${ image.imageLink }" class="image image-sg" width="auto" height="auto" />
+            <div class="image-textbox">
               <strong>${ image.name }</strong>
               <p>${ image.description }</p>
             </div>
@@ -111,5 +112,5 @@ module.exports = {
   deleteImageBySlugName,
   getImageBySlugName,
   findAndModifyImageBySlugName,
-  sendASingleImage
+  sendASingleHtmlImage
 }

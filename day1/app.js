@@ -52,8 +52,8 @@ app.get('/addImage/:slugName', (req, res) => {
 app.get('/image/:slugName', (req, res) => {
   let slugName = req.params.slugName;
   let image = _fs.getImageBySlugName(slugName);
-  htmlWilShowUp = _fs.sendASingleImage(image);
-  res.send(htmlWilShowUp);
+  htmlWillShowUp = _fs.sendASingleHtmlImage(image);
+  res.send(htmlWillShowUp);
 });
 
 app.put('/addImage/:slugName', (req, res) => {

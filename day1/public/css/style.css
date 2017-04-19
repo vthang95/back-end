@@ -15,6 +15,12 @@ body {
     cursor: pointer;
 }
 
+.image-sg {
+    display: block;
+    margin: auto;
+    width: 100%;
+}
+
 .image-frame {
     float: left;
     margin: 4px 4px 20px 4px;
@@ -24,7 +30,7 @@ body {
     float: left;
     width: 100%;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 8px 8px 0px 0px
+    border-radius: 8px 8px 0px 0px;
 }
 
 .image-textbox {

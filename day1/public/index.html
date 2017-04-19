@@ -8,7 +8,7 @@
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
   <title>Girls Gallery</title>
   <!--Angularjs-->
-  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+  <script src="/libs/angular.min.js"></script>
   <script src="/controllers/controller.js"></script>
   <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -18,20 +18,15 @@
 </head>
 
 <body>
-  <nav class="navbar navbar-default" ng-controller="AppController">
+  <nav class="navbar navbar-default">
     <div class="container-fluid nav-bg">
       <div class="navbar-header">
-        <a class="navbar-brand brand-text" href="#"><strong>TechKids</strong></a>
+        <a class="navbar-brand brand-text" href="/image"><strong>TechKids</strong></a>
       </div>
     </div>
   </nav>
   <div class="container" ng-controller="AppController">
     <h1>Gallery</h1>
-    <table>
-      <tr>
-        <td></td>
-      </tr>
-    </table>
     <div class="image-menu">
       <div class="content">
         <table class="add-image-table">
