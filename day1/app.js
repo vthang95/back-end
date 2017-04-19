@@ -2,8 +2,6 @@ const fs = require('fs');
 const express = require('express');
 const http = require('http');
 const bodyParser = require('body-parser');
-const mongojs = require('mongojs');
-const db = mongojs('imageList', ['imageList']);
 const slug = require('slug');
 
 const _fs = require('./my_modules/images/imageController.js')
