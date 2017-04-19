@@ -39,10 +39,6 @@ app.post('/addImage', (req, res) => {
   res.json(data);
 });
 
-app.put('./addImage', (req, res) => {
-
-});
-
 app.delete('/addImage/:slugName', (req, res) => {
   let slugName = req.params.slugName;
   _fs.deleteImageBySlugName(slugName);
@@ -53,10 +49,7 @@ app.delete('/addImage/:slugName', (req, res) => {
 app.get('/addImage/:slugName', (req, res) => {
   let slugName = req.params.slugName;
   let image = _fs.getImageBySlugName(slugName);
-  // res.json(image);
-  var string = `<div><p>hi</p></div>`
-  console.log(slugName)
-  res.send(string)
+  res.json(image);
 });
 app.get('/image/:slugName', (req, res) => {
   let slugName = req.params.slugName;
