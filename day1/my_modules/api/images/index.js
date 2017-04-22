@@ -1,6 +1,10 @@
 const express = require('express');
 const Router = express.Router();
 const _fs = require('./imageController');
+const mongoose = require('mongoose');
+const slug = require('slug');
+
+const images = require('./imageModel');
 
 Router.get('/', (req, res) => {
   let data = _fs.fetchImageCollection();
@@ -16,9 +20,10 @@ Router.post('/', (req, res) => {
       lowercase: false
     })
   };
-  _fs.saveImageCollection(imageInfo);
-  data = _fs.fetchImageCollection();
-  res.json(data);
+  // _fs.saveImageCollection(imageInfo);
+  // data = _fs.fetchImageCollection();
+  _fs.addImage(imageInfo);
+  // res.json(data);
 });
 
 Router.put('/:slugName', (req, res) => {

@@ -1,15 +1,20 @@
 var myApp = angular.module('myApp', []);
 
 myApp.controller('AppController', ($scope, $http) => {
-  $http({
-    method: 'GET',
-    url: '/api/image',
-    headers: { 'Content-Type': 'application/json' }
-  }).then(res => {
-    if (!res) return;
-    $scope.imageList = res.data;
-    $scope.image = {};
-  });
+  let refresh = () => {
+    $http({
+      method: 'GET',
+      url: '/api/image',
+      headers: { 'Content-Type': 'application/json' }
+    }).then(res => {
+      if (!res) return;
+      console.log(res.data)
+      $scope.imageList = res.data;
+      $scope.image = {};
+    });
+  };
+
+  refresh();
 
   $scope.removeImage = (image) => {
     $http({

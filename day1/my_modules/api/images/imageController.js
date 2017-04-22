@@ -1,5 +1,15 @@
 const fs = require('fs');
+const _ = require('underscore');
+
 const imageDataPath = './imgData.json'
+const imageModel = require('./imageModel');
+
+const addImage = (data) => {
+  imageModel.create(data, (err, doc) => {
+    if (err) console.log(err);
+      else console.log(doc);
+  });
+};
 
 const saveImageCollection = (singleData) => {
   notes = [];
@@ -112,5 +122,6 @@ module.exports = {
   deleteImageBySlugName,
   getImageBySlugName,
   findAndModifyImageBySlugName,
-  sendASingleHtmlImage
+  sendASingleHtmlImage,
+  addImage
 }
