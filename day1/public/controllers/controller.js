@@ -3,7 +3,7 @@ var myApp = angular.module('myApp', []);
 myApp.controller('AppController', ($scope, $http) => {
   $http({
     method: 'GET',
-    url: '/addImage',
+    url: '/api/image',
     headers: { 'Content-Type': 'application/json' }
   }).then(res => {
     if (!res) return;
@@ -14,7 +14,7 @@ myApp.controller('AppController', ($scope, $http) => {
   $scope.removeImage = (image) => {
     $http({
       method: 'DELETE',
-      url: '/addImage/' + image.slugName,
+      url: '/api/image/' + image.slugName,
       headers: { 'Content-Type': 'application/json' }
     }).then((response) => {
       $scope.imageList = response.data;
@@ -57,7 +57,7 @@ myApp.controller('AppController', ($scope, $http) => {
     if (Object.keys($scope.image).length === 0 || $scope.image.name === undefined) return;
     $http({
       method: 'POST',
-      url: '/addImage',
+      url: '/api/image',
       data: $scope.image
     }).then((response) => {
       if (!response) return;
@@ -70,7 +70,7 @@ myApp.controller('AppController', ($scope, $http) => {
     $scope.editContentIsActive = false;
     $http({
       method: 'GET',
-      url: '/addImage/' + image.slugName,
+      url: '/api/image/' + image.slugName,
       headers: { 'Content-Type': 'application/json' }
     }).then((response) => {
       $scope.image = response.data;
@@ -81,7 +81,7 @@ myApp.controller('AppController', ($scope, $http) => {
     if (Object.keys($scope.image).length === 0 || $scope.image.name === undefined) return;
     $http({
       method: 'PUT',
-      url: '/addImage/' + $scope.image.slugName,
+      url: '/api/image/' + $scope.image.slugName,
       headers: { 'Content-Type': 'application/json' },
       data: $scope.image
     }).then((response) => {
