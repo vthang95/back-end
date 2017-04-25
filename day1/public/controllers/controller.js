@@ -8,7 +8,6 @@ myApp.controller('AppController', ($scope, $http) => {
       headers: { 'Content-Type': 'application/json' }
     }).then(res => {
       if (!res) return;
-      console.log(res.data)
       $scope.imageList = res.data;
       $scope.image = {};
     });
@@ -66,6 +65,7 @@ myApp.controller('AppController', ($scope, $http) => {
       data: $scope.image
     }).then((response) => {
       if (!response) return;
+      console.log(response)
       $scope.imageList = response.data;
       $scope.image = {};
     });

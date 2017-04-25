@@ -7,8 +7,11 @@ const slug = require('slug');
 const images = require('./imageModel');
 
 Router.get('/', (req, res) => {
-  let data = _fs.fetchImageCollection();
-  res.json(data);
+  // let data = _fs.fetchImageCollection();
+  // res.json(data);
+  _fs.getImageCollection((docs) => {
+    res.json(docs);
+  })
 });
 
 Router.post('/', (req, res) => {
@@ -22,7 +25,9 @@ Router.post('/', (req, res) => {
   };
   // _fs.saveImageCollection(imageInfo);
   // data = _fs.fetchImageCollection();
-  _fs.addImage(imageInfo);
+  _fs.addImage(imageInfo, (docs) => {
+    res.json(docs);
+  });
   // res.json(data);
 });
 

@@ -4,10 +4,22 @@ const _ = require('underscore');
 const imageDataPath = './imgData.json'
 const imageModel = require('./imageModel');
 
-const addImage = (data) => {
+const addImage = (data, successCallBack) => {
   imageModel.create(data, (err, doc) => {
     if (err) console.log(err);
-      else console.log(doc);
+    else {
+      imageModel.find((err, docs) => {
+        if (err) console.log(err);
+        else successCallBack(docs);
+      });
+    };
+  });
+};
+
+const getImageCollection = (successCallBack) => {
+  imageModel.find((err, docs) => {
+    if (err) console.log(err);
+    else successCallBack(docs);
   });
 };
 
@@ -123,5 +135,6 @@ module.exports = {
   getImageBySlugName,
   findAndModifyImageBySlugName,
   sendASingleHtmlImage,
-  addImage
+  addImage,
+  getImageCollection
 }
