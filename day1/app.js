@@ -12,8 +12,8 @@ const config = require('./config.json');
 var app = express();
 
 app.use(express.static(__dirname + '/public'));
-app.use(bodyParser.json({ extends: true }));
-app.use(bodyParser.urlencoded({ extends: true }));
+app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }))
 
 mongoose.connect(config.connectionString, (err) => {
   if (err) console.log(err);
@@ -32,9 +32,10 @@ app.use('/api/image', imageRouter);
 
 app.get('/image/:slugName', (req, res) => {
   let slugName = req.params.slugName;
-  let image = _fs.getImageBySlugName(slugName);
-  htmlWillShowUp = _fs.sendASingleHtmlImage(image);
-  res.send(htmlWillShowUp);
+  _fs.getImageBySlugName(slugName, doc => {
+    htmlWillShowUp = _fs.sendASingleHtmlImage(doc);
+    res.send(htmlWillShowUp);
+  });
 });
 
 const server = http.createServer(app);

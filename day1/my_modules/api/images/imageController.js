@@ -1,8 +1,9 @@
 const fs = require('fs');
 const _ = require('underscore');
 
-const imageDataPath = './imgData.json'
 const imageModel = require('./imageModel');
+
+const imageDataPath = './imgData.json'
 
 const addImage = (data, successCallBack) => {
   imageModel.create(data, (err, doc) => {
@@ -23,87 +24,27 @@ const getImageCollection = (successCallBack) => {
   });
 };
 
-const saveImageCollection = (singleData) => {
-  notes = [];
-
-  try {
-    let noteString = fs.readFileSync(imageDataPath);
-    notes = JSON.parse(noteString);
-  } catch (e) {
-    console.log(e)
-  }
-
-  let duplicateNote = notes.filter(note =>
-    note.name === singleData.name &&
-    note.description === singleData.description &&
-    note.imageLink === singleData.imageLink || note.name === singleData.name
-  );
-
-  if (duplicateNote.length === 0) {
-    notes.push(singleData);
-    fs.writeFileSync(imageDataPath, JSON.stringify(notes));
-  } else {
-    return false;
-  }
-  return true;
+const deleteImageBySlugName = slugName => {
+  console.log('haha')
+  imageModel.deleteOne({'slugName': slugName}, (err, result) => {
+    if (err) console.log(err);
+  });
 };
 
-const fetchImageCollection = () => {
-  try {
-    let collectionToFetch = JSON.parse(fs.readFileSync(imageDataPath, 'utf-8'));
-    return collectionToFetch;
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const deleteImageBySlugName = (slugName) => {
-  try {
-    let collection = JSON.parse(fs.readFileSync(imageDataPath, 'utf-8'));
-    for (let i = 0; i < collection.length; i++) {
-      if (collection[i].slugName === slugName) {
-        collection.splice(collection.indexOf(collection[i]), 1);
-      }
-    }
-    fs.writeFileSync(imageDataPath, JSON.stringify(collection));
-  } catch (e) {
-    console.log(e);
-  }
-};
-
-const getImageBySlugName = (slugName) => {
-  try {
-    let collection = JSON.parse(fs.readFileSync(imageDataPath, 'utf-8'));
-    for (let i = 0; i < collection.length; i++) {
-      if (collection[i].slugName === slugName) {
-        return collection[i];
-      }
-    }
-  } catch (e) {
-    console.log(e);
-  }
+const getImageBySlugName = (slugName, successCallBack) => {
+  imageModel.findOne({'slugName': slugName}, (err, doc) => {
+    if (err) console.log(err);
+    else successCallBack(doc);
+  });
 };
 
 const findAndModifyImageBySlugName = (slugName, image) => {
-  try {
-    let collection = JSON.parse(fs.readFileSync(imageDataPath, 'utf-8'));
-
-    for (let i = 0; i < collection.length; i++) {
-      if (image.name === collection[i].name && collection[i].slugName != slugName) {
-        break;
-      };
-      if (collection[i].slugName === slugName) {
-        collection.splice(collection.indexOf(collection[i]), 1, image);
-      }
-    }
-    fs.writeFileSync(imageDataPath, JSON.stringify(collection));
-    return collection;
-  } catch (e) {
-    console.log(e);
-  }
+  imageModel.findOneAndUpdate({'slugName': slugName}, image, (err, docs) => {
+    if (err) console.log(err);
+  });
 };
 
-const sendASingleHtmlImage = (image) => {
+const sendASingleHtmlImage = image => {
   html = `
     <html>
       <head>
@@ -129,8 +70,6 @@ const sendASingleHtmlImage = (image) => {
 };
 
 module.exports = {
-  saveImageCollection,
-  fetchImageCollection,
   deleteImageBySlugName,
   getImageBySlugName,
   findAndModifyImageBySlugName,

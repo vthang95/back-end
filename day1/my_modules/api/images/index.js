@@ -7,11 +7,7 @@ const slug = require('slug');
 const images = require('./imageModel');
 
 Router.get('/', (req, res) => {
-  // let data = _fs.fetchImageCollection();
-  // res.json(data);
-  _fs.getImageCollection((docs) => {
-    res.json(docs);
-  })
+  _fs.getImageCollection(docs => res.json(docs));
 });
 
 Router.post('/', (req, res) => {
@@ -23,12 +19,7 @@ Router.post('/', (req, res) => {
       lowercase: false
     })
   };
-  // _fs.saveImageCollection(imageInfo);
-  // data = _fs.fetchImageCollection();
-  _fs.addImage(imageInfo, (docs) => {
-    res.json(docs);
-  });
-  // res.json(data);
+  _fs.addImage(imageInfo, (docs) => res.json(docs));
 });
 
 Router.put('/:slugName', (req, res) => {
@@ -41,21 +32,19 @@ Router.put('/:slugName', (req, res) => {
       lowercase: false
     })
   };
-  let collection = _fs.findAndModifyImageBySlugName(slugName, imageInfo);
-  res.json(collection);
+  _fs.findAndModifyImageBySlugName(slugName, imageInfo);
+  _fs.getImageCollection(docs => res.json(docs));
 });
 
 Router.delete('/:slugName', (req, res) => {
   let slugName = req.params.slugName;
   _fs.deleteImageBySlugName(slugName);
-  let data = _fs.fetchImageCollection()
-  res.json(data);
+  _fs.getImageCollection(docs => res.json(docs));
 });
 
 Router.get('/:slugName', (req, res) => {
   let slugName = req.params.slugName;
-  let image = _fs.getImageBySlugName(slugName);
-  res.json(image);
+  _fs.getImageBySlugName(slugName, (doc) => {res.json(doc)});
 });
 
 module.exports = Router;
