@@ -30,11 +30,13 @@ app.get('/image', (req, res) => {
 
 app.use('/api/image', imageRouter);
 
-app.get('/image/:slugName', (req, res) => {
-  let slugName = req.params.slugName;
-  _fs.getImageBySlugName(slugName, doc => {
-    htmlWillShowUp = _fs.sendASingleHtmlImage(doc);
-    res.send(htmlWillShowUp);
+app.get('/image/:id', (req, res) => {
+  let id = req.params.id;
+  _fs.getImageById(id, (err, doc) => {
+    if (err) {
+      res.status(500).json({message: 'Error'});
+    }
+    _fs.sendASingleHtmlImage(doc, htmlWillShowUp => res.send(htmlWillShowUp));
   });
 });
 

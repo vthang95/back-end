@@ -18,7 +18,7 @@ myApp.controller('AppController', ($scope, $http) => {
   $scope.removeImage = (image) => {
     $http({
       method: 'DELETE',
-      url: '/api/image/' + image.slugName,
+      url: '/api/image/' + image._id,
       headers: { 'Content-Type': 'application/json' }
     }).then((response) => {
       $scope.imageList = response.data;
@@ -65,7 +65,6 @@ myApp.controller('AppController', ($scope, $http) => {
       data: $scope.image
     }).then((response) => {
       if (!response) return;
-      console.log(response)
       $scope.imageList = response.data;
       $scope.image = {};
     });
@@ -75,7 +74,7 @@ myApp.controller('AppController', ($scope, $http) => {
     $scope.editContentIsActive = false;
     $http({
       method: 'GET',
-      url: '/api/image/' + image.slugName,
+      url: '/api/image/' + image._id,
       headers: { 'Content-Type': 'application/json' }
     }).then((response) => {
       $scope.image = response.data;
@@ -83,10 +82,13 @@ myApp.controller('AppController', ($scope, $http) => {
   };
 
   $scope.update = () => {
-    if (Object.keys($scope.image).length === 0 || $scope.image.name === undefined) return;
+    if (Object.keys($scope.image).length === 0 || $scope.image.name === undefined || !$scope.image._id) {
+      $scope.image = {};
+      return;
+    };
     $http({
       method: 'PUT',
-      url: '/api/image/' + $scope.image.slugName,
+      url: '/api/image/' + $scope.image._id,
       headers: { 'Content-Type': 'application/json' },
       data: $scope.image
     }).then((response) => {
@@ -98,10 +100,10 @@ myApp.controller('AppController', ($scope, $http) => {
   $scope.popup = (image) => {
     $http({
       method: 'GET',
-      url: '/image/' + image.slugName,
+      url: '/image/' + image._id,
       headers: { 'Content-Type': 'application/json' }
     }).then((response) => {
-      window.location = '/image/' + image.slugName;
+      window.location = '/image/' + image._id;
     });
   };
 
