@@ -6,6 +6,8 @@ const dotenv = require('dotenv');
 const mongoose = require('mongoose');
 const chalk = require('chalk');
 const bodyParser = require('body-parser');
+const path = require('path');
+const sass = require('node-sass-middleware')
 
 /**
  * Load environment variables from .env
@@ -36,14 +38,23 @@ mongoose.connection.on('error', (err) => {
  * Express configurations
  */
 app.set('port', process.env.PORT || 3000);
+app.set('views', path.join(__dirname, 'src/views'));
+app.set('view engine', 'pug');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(sass({
+  src: path.join(__dirname, 'public'),
+  dest: path.join(__dirname, 'public')
+}));
 
 /**
  * App routes
  */
 app.get('/', (req, res) => {
-  res.send('<h1>App is running...</h1>');
+  // res.send('<h1>App is running...</h1>');
+  res.render('home', {
+    title: 'Home;'
+  })
 });
 
 /**
