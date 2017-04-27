@@ -1,0 +1,20 @@
+# Dependency directory
+/node_modules
+
+# API keys and secrets
+.env
+
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+*.swp
+
+pids
+logs
+results
+tmp

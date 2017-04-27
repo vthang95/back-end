@@ -9,9 +9,9 @@ const images = require('./imageModel');
 Router.get('/', (req, res) => {
   imageController.getImageCollection((err, docs) => {
     if (err) {
-      res.status(500).json({message: 'Error'})
+      res.status(500).json({message: 'Error'});
     }
-    res.json(docs)
+    res.json(docs);
   });
 });
 
