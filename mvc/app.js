@@ -54,6 +54,7 @@ app.use(sass({
  */
 app.get('/', homeController.index);
 app.get('/login', userController.getLogin);
+app.get('/signup', userController.getSignup);
 ``
 /**
  * Start Express Server
