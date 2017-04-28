@@ -33,6 +33,8 @@ mongoose.connection.on('error', (err) => {
 /**
  * Controllers (Route handlers)
  */
+const homeController = require('./src/controllers/home');
+const userController = require('./src/controllers/user');
 
 /**
  * Express configurations
@@ -50,13 +52,9 @@ app.use(sass({
 /**
  * App routes
  */
-app.get('/', (req, res) => {
-  // res.send('<h1>App is running...</h1>');
-  res.render('home', {
-    title: 'Home;'
-  })
-});
-
+app.get('/', homeController.index);
+app.get('/login', userController.getLogin);
+``
 /**
  * Start Express Server
  */
