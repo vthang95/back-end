@@ -4,6 +4,23 @@ const imageSchema = mongoose.Schema({
   id: { type: String, unique: true, required: true },
   name: { type: String },
   imageLink: { type: String, default: 'http://postroyforum.ru/assets/img/no_photo.png' },
+  description: { type: String },
   likes: { type: Number },
-  likeBy: []
+  likeBy: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  postedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  comments: [{
+    text: String,
+    postedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
+  }]
 });
+
+module.exports = mongoose.model('Image', imageSchema);
