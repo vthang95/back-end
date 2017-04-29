@@ -39,8 +39,10 @@ mongoose.connection.on('error', (err) => {
  * Controllers (Route handlers)
  */
 const homeController = require('./src/controllers/homeController');
-// const userController = require('./src/controllers/userController');
 
+/**
+ * Routes declaration
+ */
 const userRouter = require('./src/routes/userRouter');
 
 /**
@@ -56,14 +58,21 @@ app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
+
 // Express session
 app.use(session({
   resave: true,
   secret: process.env.SESSION_SECRET,
   saveUninitialized: true
 }));
+
+// Passport init
+app.use(passport.initialize());
+app.use(passport.session());
+
 // Connect flash
 app.use(flash());
+
 // Express Validator middleware option
 app.use(expressValidator({
   errorFormatter: function(param, msg, value) {
@@ -85,7 +94,7 @@ app.use(expressValidator({
 /**
  * Use Routes
  */
-app.use('/', userRouter);
+app.use('/user', userRouter);
 
 /**
  * App routes
@@ -96,6 +105,6 @@ app.get('/', homeController.getIndex);
  * Start Express Server
  */
 app.listen(app.get('port'), (req, res) => {
-  console.log('%s app is running on http://localhost:%d', chalk.green('✓'), app.get('port'));
+  console.log('%s App is running on http://localhost:%d\n\tPress Ctrl-C to stop sever', chalk.green('✓'), app.get('port'));
 });
 
