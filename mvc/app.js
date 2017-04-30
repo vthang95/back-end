@@ -8,10 +8,11 @@ const chalk = require('chalk');
 const bodyParser = require('body-parser');
 const path = require('path');
 const sass = require('node-sass-middleware');
-const flash = require('connect-flash');
+const flash = require('express-flash');
 const expressValidator = require('express-validator');
 const session = require('express-session');
 const passport = require('passport');
+const errorHandler = require('errorhandler');
 const LocalStrategy = require('passport-local').Strategy;
 
 /**
@@ -54,6 +55,7 @@ app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressValidator());
 app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
@@ -100,6 +102,11 @@ app.use('/user', userRouter);
  * App routes
  */
 app.get('/', homeController.getIndex);
+
+/**
+ * Error handler
+ */
+app.use(errorHandler());
 
 /**
  * Start Express Server
