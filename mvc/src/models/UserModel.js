@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
 const userSchema = mongoose.Schema({
-  email: { type: String, unique: true };
+  email: { type: String, lowerCase: true, unique: true },
   password: String,
   role: String,
   passwordResetToken: String,
@@ -34,16 +35,27 @@ const userSchema = mongoose.Schema({
 /**
  * Password hash middleware
  */
-userSchema.pre('save', (next) => {
-  // TODO: 
-  next();
+userSchema.pre('save', function save(next) {
+  const user = this;
+  if (!user.isModified('password')) return next();
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) return next(err);
+    bcrypt.hash(user.password, salt, (err, hash) => {
+      if (err) return next(err);
+        user.password = hash;
+        next()
+    });
+  });
 }); 
 
 /**
  * Helper method for validating user's password
  */
-userSchema.method.comparePassword = (candidatePassword, callback) => {
+userSchema.methods.comparePassword = (candidatePassword, callback) => {
   // TODO: bcrypt compare
+  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+    callback(err, isMatch);
+  })
 };
 
 

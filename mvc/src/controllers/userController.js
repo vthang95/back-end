@@ -1,4 +1,7 @@
 const chalk = require('chalk');
+const passport = require('passport');
+
+const User = require('../models/UserModel');
 
 exports.getLogin = (req, res) => {
   console.log('%s Get login page', chalk.green('✓'));
@@ -14,13 +17,7 @@ exports.getSignup = (req, res) => {
   });
 };
 
-exports.postSignup = (req, res) => {
-  let signupInfomation = {
-    email: req.body.email,
-    password: req.body.password,
-    confirmPassword: req.body.confirmPassword
-  }
-
+exports.postSignup = (req, res, next) => {
   req.assert('email', 'Name is require').notEmpty();
   req.assert('password', 'Password is required').notEmpty();
   req.assert('confirmPassword', 'Password is required').notEmpty()  ;
@@ -31,5 +28,26 @@ exports.postSignup = (req, res) => {
   if (errors) {
     req.flash('errors', errors);
     res.redirect('/user/signup');
+  } else {
+    let newUser = new User({
+      email: req.body.email.toLowerCase(),
+      password: req.body.password,
+      confirmPassword: req.body.confirmPassword 
+    });
+    
+    User.findOne({ email: req.body.email }, (err, existingUser) => {
+      if (err) return next(err);
+      if (existingUser) {
+        req.flash('errors', { msg: 'Account with that email is already exists!' });
+        return res.redirect('/user/signup');
+      }
+      newUser.save((err) => {
+        if (err) {
+          return next(err);
+        }
+        req.flash('success', { msg: 'Successful! You can login now.' })
+        res.redirect('/user/login');
+      });
+    })
   }
 };
