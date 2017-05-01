@@ -44,7 +44,8 @@ const homeController = require('./src/controllers/homeController');
 /**
  * APIs Router declaration
  */
-const userApiRouter = require('./api/users/index');
+const userApiRouter = require('./api/users/');
+const imageApiRouter = require('./api/images/');
 
 /**
  * Routes declaration
@@ -112,6 +113,7 @@ app.get('/', homeController.getIndex);
  * APIs
  */
 app.use('/api/users', userApiRouter);
+app.use('/api/images', imageApiRouter);
 
 /**
  * Error handler

@@ -10,28 +10,24 @@ exports.postSignup = (req, res, next) => {
 
   const errors = req.validationErrors();
   if (errors) {
-    return res.send('An error occurred!');
+    return res.json({ error: errors });
   } else {
     let newUser = new User({
       email: req.body.email.toLowerCase(),
       password: req.body.password,
       confirmPassword: req.body.confirmPassword 
     });
-    User.findOne({ email: req.body.email }, (err, existingUser) => {
+    User.findOne({ email: req.body.email.toLowerCase() }, (err, existingUser) => {
       if (err) return next(err);
       if (existingUser) {
-        return res.send('Account with that email is already exists!');
+        return res.json({ error_msg: 'Account with that email is already exists!'});
       }
       newUser.save((err) => {
         if (err) {
           return next(err);
         }
-        return res.send('Success!');
+        return res.json({ success_msg: 'Success!' });
       });
     });
   }
-};
-
-exports.getSignup = (req, res, next) => {
-  console.log('ok')
 };
