@@ -42,6 +42,11 @@ mongoose.connection.on('error', (err) => {
 const homeController = require('./src/controllers/homeController');
 
 /**
+ * APIs Router declaration
+ */
+const userApiRouter = require('./api/users/index');
+
+/**
  * Routes declaration
  */
 const userRouter = require('./src/routes/userRouter');
@@ -96,12 +101,17 @@ app.use(expressValidator({
 /**
  * Use Routes
  */
-app.use('/user', userRouter);
+app.use('/users', userRouter);
 
 /**
  * App routes
  */
 app.get('/', homeController.getIndex);
+
+/**
+ * APIs
+ */
+app.use('/api/users', userApiRouter);
 
 /**
  * Error handler

@@ -3,8 +3,6 @@ const _ = require('underscore');
 
 const imageModel = require('./imageModel');
 
-const imageDataPath = './imgData.json'
-
 const addImage = (data, callback) => {
   imageModel.create(data, (err, doc) => {
     if (err) {
