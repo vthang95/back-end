@@ -26,9 +26,9 @@ exports.postSignup = (req, res, next) => {
         .findOne()
         .select('uid')
         .sort({ uid: -1 })
-        .exec((err, objectWithMaxUid) => {
+        .exec((err, objectWithLastUid) => {
           if (err) return next(err);
-          newUser.uid = (objectWithMaxUid && objectWithMaxUid.uid) ? objectWithMaxUid.uid +1 : 1;
+          newUser.uid = (objectWithLastUid && objectWithLastUid.uid) ? objectWithLastUid.uid +1 : 1;
           newUser.save((err) => {
             if (err) {
               return next(err);

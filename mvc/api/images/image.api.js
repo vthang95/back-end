@@ -1,21 +1,84 @@
-const imageModel = require('../../src/models/ImageModel');
+const Image = require('../../src/models/ImageModel');
 
-exports.getAllImages = () => {
-  console.log('getAllImages')
+exports.getAllImages = (req, res) => {
+  Image.find({}, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.json({ error_msg: 'An error occurred!' });
+    }
+    res.json(docs);
+  });
 };
 
-exports.getSingleImage = () => {
-  console.log('getSingleImage')
+exports.getSingleImage = (req, res) => {
+  let id = req.params.id;
+  Image.find({ id: id }, (err, doc) => {
+    if (err) {
+      console.log(err);
+      return res.json({ error_msg: 'An error occurred!' });
+    }
+    if (!doc) return res.status(500).json({ error_msg: 'Not found!' });
+    res.json(doc);
+  });
 };
 
-exports.postImage = () => {
-  console.log('postImage')
+exports.postImage = (req, res) => {
+  let newImage = {
+    name: req.body.name,
+    imageLink: req.body.imageLink,
+    description: req.body.description
+  }
+
+  Image
+    .findOne()
+    .select('id')
+    .sort({ id: -1 })
+    .exec((err, imageWithLastId) => {
+      if (err) {
+        console.log(err);
+        return res.json(err);
+      }
+      newImage.id = (imageWithLastId && imageWithLastId.id) ? imageWithLastId.id + 1 : 1;
+      Image.create(newImage, (err, doc) => {
+        if (err) {
+          console.log(err);
+          return res.json(err);
+        }
+        res.json(doc);
+      });
+    });
 };
 
-exports.putImage = () => {
-  console.log('putImage')
+exports.putImage = (req, res) => {
+  let id = req.params.id;
+  let newImage = {
+    name: req.body.name,
+    imageLink: req.body.imageLink,
+    description: req.body.description
+  }
+  
+  Image.findOneAndUpdate({ id: id }, newImage, (err, doc) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+    Image.findOne({ id: id }, (err, doc) => {
+      if (err) {
+        console.log(err);
+        return res.json(err);
+      }
+      res.json(doc);
+    });
+  });
 };
 
-exports.deleteImage = () => {
-  console.log('deleteImage')
+exports.deleteImage = (req, res) => {
+  let id = req.params.id;
+  Image.deleteOne({ id: id }, (err, doc) => {
+    if (err) {
+      console.log(err);
+      res.json(err);
+    }
+    res.json(doc);
+  });
 };
