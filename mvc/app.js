@@ -100,7 +100,7 @@ app.use(expressValidator({
 }));
 
 /**
- * Use Routes
+ * Use Routers to render from server-side
  */
 app.use('/users', userRouter);
 
@@ -110,7 +110,7 @@ app.use('/users', userRouter);
 app.get('/', homeController.getIndex);
 
 /**
- * APIs
+ * APIs Routers to response to client-side (json)
  */
 app.use('/api/users', userApiRouter);
 app.use('/api/images', imageApiRouter);

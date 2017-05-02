@@ -22,12 +22,20 @@ exports.postSignup = (req, res, next) => {
       if (existingUser) {
         return res.json({ error_msg: 'Account with that email is already exists!'});
       }
-      newUser.save((err) => {
-        if (err) {
-          return next(err);
-        }
-        return res.json({ success_msg: 'Success!' });
-      });
+      User
+        .findOne()
+        .select('uid')
+        .sort({ uid: -1 })
+        .exec((err, objectWithMaxUid) => {
+          if (err) return next(err);
+          newUser.uid = (objectWithMaxUid && objectWithMaxUid.uid) ? objectWithMaxUid.uid +1 : 1;
+          newUser.save((err) => {
+            if (err) {
+              return next(err);
+            }
+            return res.json({ success_msg: 'Success!' });
+          });
+        });
     });
   }
 };

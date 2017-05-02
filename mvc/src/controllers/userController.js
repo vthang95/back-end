@@ -41,13 +41,23 @@ exports.postSignup = (req, res, next) => {
         req.flash('errors', { msg: 'Account with that email is already exists!' });
         return res.redirect('/users/signup');
       }
-      newUser.save((err) => {
-        if (err) {
-          return next(err);
-        }
-        req.flash('success', { msg: 'Successful! You can login now.' })
-        res.redirect('/users/login');
-      });
+      User
+        .findOne()
+        .select('uid')
+        .sort({ uid: -1 })
+        .exec((err, objectWithMaxUid) => {
+          console.log(objectWithMaxUid)
+          if (err) return next(err);
+          newUser.uid = (objectWithMaxUid && objectWithMaxUid.uid) ? objectWithMaxUid.uid + 1 : 1;
+          console.log(newUser)
+          newUser.save((err) => {
+            if (err) {
+              return next(err);
+            }
+            req.flash('success', { msg: 'Successful! You can login now.' })
+            res.redirect('/users/login');
+          });
+        });
     });
   }
 };
