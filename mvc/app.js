@@ -37,11 +37,6 @@ mongoose.connection.on('error', (err) => {
 });
 
 /**
- * Controllers (Route handlers)
- */
-const homeController = require('./src/controllers/homeController');
-
-/**
  * APIs Router declaration
  */
 const userApiRouter = require('./api/users/');
@@ -51,6 +46,7 @@ const imageApiRouter = require('./api/images/');
  * Routes declaration
  */
 const userRouter = require('./src/routes/userRouter');
+const navigationRouter = require('./src/routes/navigationRouter');
 
 /**
  * Express configurations
@@ -103,11 +99,7 @@ app.use(expressValidator({
  * Use Routers to render from server-side
  */
 app.use('/users', userRouter);
-
-/**
- * App routes
- */
-app.get('/', homeController.getIndex);
+app.use('/', navigationRouter);
 
 /**
  * APIs Routers to response to client-side (json)

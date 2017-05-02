@@ -18,7 +18,7 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postSignup = (req, res, next) => {
-  req.assert('email', '! Name is required.').notEmpty();
+  req.assert('email', '! Email is required.').notEmpty();
   req.assert('password', '! Password is required.').notEmpty();
   req.assert('confirmPassword', '! Confirm Password is required.').notEmpty()  ;
   req.assert('password', '! Password must be at least 4 characters long.').len(4);

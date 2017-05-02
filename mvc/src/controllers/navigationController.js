@@ -8,3 +8,12 @@ exports.getIndex = (req, res) => {
     title: 'Home'
   });
 };
+
+exports.getContact = (req, res) => {
+  if (req) {
+    console.log('%s Get contact page', chalk.green('✓'));
+  }
+  res.render('home', {
+    title: 'Contact'
+  });
+};

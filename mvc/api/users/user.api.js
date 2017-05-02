@@ -39,3 +39,17 @@ exports.postSignup = (req, res, next) => {
     });
   }
 };
+
+exports.getSearchUser = (req, res) => {
+  let regex = new RegExp(req.query.q);
+  User
+    .find({ username: regex })
+    .limit(20)
+    .exec((err, docs) => {
+      if (err) {
+        console.log(err);
+        return res.json({ error_msg: 'An error occurred!' });
+      }
+      res.json(docs);
+    });
+};

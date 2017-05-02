@@ -1,4 +1,5 @@
 const Image = require('../../src/models/ImageModel');
+const lodash = require('lodash');
 
 exports.getAllImages = (req, res) => {
   Image.find({}, (err, docs) => {
@@ -81,4 +82,18 @@ exports.deleteImage = (req, res) => {
     }
     res.json(doc);
   });
+};
+
+exports.getSearchImage = (req, res) => {
+  let regex = new RegExp(req.query.q, 'i');
+  Image
+    .find({ name: regex })
+    .limit(20)
+    .exec((err, docs) => {
+      if (err) {
+        console.log(err);
+        return res.json(err);
+      }
+      res.json(docs);
+    });
 };

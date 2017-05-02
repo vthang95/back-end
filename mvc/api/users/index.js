@@ -5,5 +5,6 @@ const Router = express.Router();
 const userController = require('./user.api');
 
 Router.post('/signup', userController.postSignup);
+Router.get('/search', userController.getSearchUser);
 
 module.exports = Router;
