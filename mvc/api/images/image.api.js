@@ -1,5 +1,6 @@
 const Image = require('../../src/models/ImageModel');
 const lodash = require('lodash');
+const config = require('../../config.json')
 
 exports.getAllImages = (req, res) => {
   Image.find({}, (err, docs) => {
@@ -54,7 +55,7 @@ exports.putImage = (req, res) => {
   let id = req.params.id;
   let newImage = {
     name: req.body.name,
-    imageLink: req.body.imageLink,
+    imageLink: req.body.imageLink || config.DEFAULT_IMAGE,
     description: req.body.description
   }
   

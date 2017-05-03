@@ -73,6 +73,7 @@ exports.getSignup = (req, res) => {
 
 exports.postSignup = (req, res, next) => {
   req.assert('email', '! Email is required.').notEmpty();
+  req.assert('email', '! Email is not valid').isEmail();
   req.assert('password', '! Password is required.').notEmpty();
   req.assert('confirmPassword', '! Confirm Password is required.').notEmpty()  ;
   req.assert('password', '! Password must be at least 4 characters long.').len(4);
@@ -80,6 +81,7 @@ exports.postSignup = (req, res, next) => {
 
   const errors = req.validationErrors();
   if (errors) {
+    console.log(errors)
     req.flash('errors', errors);
     res.redirect('/users/signup');
   } else {

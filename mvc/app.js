@@ -17,9 +17,10 @@ const errorHandler = require('errorhandler');
 const LocalStrategy = require('passport-local').Strategy;
 
 /**
- * Load environment variables from .env
+ * Load environment variables from .env || config
  */
-dotenv.load({ path: '.env.example' });
+// dotenv.load({ path: '.env.example' });
+const config = require('./config.json')
 
 /**
  * Create Express Sever
@@ -30,7 +31,7 @@ const app = express();
  * Connect Database (mongoDB)
  */
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(config.MONGODB_URI);
 mongoose.connection.on('error', (err) => {
   console.log(err);
   console.log('%s MongoDB connection error! Please make sure MongoDB is running', chalk.red('✗'));
@@ -52,7 +53,7 @@ const navigationRouter = require('./src/routes/navigationRouter');
 /**
  * Express configurations
  */
-app.set('port', process.env.PORT || 3000);
+app.set('port', config.PORT || 3000);
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
@@ -68,7 +69,7 @@ app.use(sass({
 // Express session
 app.use(session({
   resave: true,
-  secret: process.env.SESSION_SECRET,
+  secret: config.SESSION_SECRET,
   saveUninitialized: true
 }));
 

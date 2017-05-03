@@ -1,7 +1,7 @@
 
 exports.getIndex = (req, res) => {
   res.render('home', {
-    title: 'Home'
+    title: 'Home',
   });
 };
 
