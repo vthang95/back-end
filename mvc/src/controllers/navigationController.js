@@ -11,7 +11,6 @@ exports.getIndex = (req, res, next) => {
       console.log(err);
       return next(err);
     }
-    console.log(docs)
     res.render('home', {
       title: 'Home',
       images: docs 

@@ -9,12 +9,12 @@ block content
         .col-sm-6.col-sm-offset-3
           #imaginary_container
             div.input-group.stylish-input-group
-                input.form-control(
+                input(
                   type='text'
                   placeholder='Search',
                   name='q'
                 )
-                button.col-sm-3.btn.btn-primary.btn-float-right(type='submit') Search
+                button(type='submit') Search
   hr
   .row
     for image in images
