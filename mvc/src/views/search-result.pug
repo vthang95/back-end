@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  h3 Search result for: #{text}
+  hr
+  .row
+    for image in images
+      .col-sm-6
+        h3 #{image.name}
+        img(src=image.imageLink, width='500', height='auto')

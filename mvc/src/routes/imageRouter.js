@@ -1,6 +1,8 @@
 const express = require('express');
 const Router = express.Router();
 
-Router.get('/', (req, res) => {
-  
-});
+const imageController = require('../controllers/imageController');
+
+Router.get('/search', imageController.getSearchImage);
+
+module.exports = Router;

@@ -1,10 +1,41 @@
 extends layout
 
 block content
+  h1 Welcome to my page 
+    p.lead A project using MVC
+  form.form-horizontal(action='/images/search', name='q', method='GET')
+    .container
+      .row
+        .col-sm-6.col-sm-offset-3
+          #imaginary_container
+            div.input-group.stylish-input-group
+                input.form-control(
+                  type='text'
+                  placeholder='Search',
+                  name='q'
+                )
+                button.col-sm-3.btn.btn-primary.btn-float-right(type='submit') Search
   hr
   .row
     for image in images
       .col-sm-6
         h3 #{image.name}
         img(src=image.imageLink, width='500', height='auto')
+//- <div class="container">
+//- 	<div class="row">
+//-         <div class="col-sm-6 col-sm-offset-3">
+//-             <div id="imaginary_container"> 
+//-                 <div class="input-group stylish-input-group">
+//-                     <input type="text" class="form-control"  placeholder="Search" >
+//-                     <span class="input-group-addon">
+//-                         <button type="submit">
+//-                             <span class="glyphicon glyphicon-search"></span>
+//-                         </button>  
+//-                     </span>
+//-                 </div>
+//-             </div>
+//-         </div>
+//- 	</div>
+//- </div>
+        
       

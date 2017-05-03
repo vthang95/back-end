@@ -48,6 +48,7 @@ const imageApiRouter = require('./api/images/');
  * Routes declaration
  */
 const userRouter = require('./src/routes/userRouter');
+const imageRouter = require('./src/routes/imageRouter')
 const navigationRouter = require('./src/routes/navigationRouter');
 
 /**
@@ -121,6 +122,7 @@ app.use(expressValidator({
  * Use Routers to render from server-side
  */
 app.use('/users', userRouter);
+app.use('/images', imageRouter);
 app.use('/', navigationRouter);
 
 /**
