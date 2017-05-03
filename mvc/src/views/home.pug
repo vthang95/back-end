@@ -1,28 +1,10 @@
 extends layout
 
 block content
-  h1 Welcome to my page
-  p.lead A project using MVC
   hr
   .row
-    .col-sm-6
-      //- h2 #{image.name}
-      p 
-        | This is a first component
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      //- h2 #{image.imageLink}
-      p second
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p third
-      p
-        a.btn.btn-default(href='#', role='button') View details »
-    .col-sm-6
-      h2 Heading
-      p last
-      p
-        a.btn.btn-default(href='#', role='button') View details »
+    for image in images
+      .col-sm-6
+        h3 #{image.name}
+        img(src=image.imageLink, width='500', height='auto')
+      
