@@ -1,17 +1,68 @@
-const chalk = require('chalk');
 const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/UserModel');
 
+passport.use(new LocalStrategy({ usernameField: 'email' },
+  function(email, password, done) {
+    User.findOne({ email: email.toLowerCase() }, (err, user) => {
+      if (err) { return done(err); }
+      if (!user) {
+        return done(null, false, { msg: `Email ${email} not found.` });
+      }
+      user.comparePassword(password, user.password, (err, isMatch) => {
+        if (err) { return done(err); }
+        if (isMatch) {
+          return done(null, user);
+        }
+        return done(null, false, { msg: 'Invalid email or password.' });
+      });
+    });
+  }
+));
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+    done(err, user);
+  });
+});
+
 exports.getLogin = (req, res) => {
-  console.log('%s Get login page', chalk.green('✓'));
   res.render('account/login', {
     title: 'Login'
   });
 };
 
+exports.postLogin = (req, res, next) => {
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('password', 'Password cannot be blank').notEmpty();
+  req.sanitize('email').normalizeEmail({ remove_dots: false });
+
+  const errors = req.validationErrors();
+
+  if (errors) {
+    req.flash('errors', errors);
+    return res.redirect('/users/login');
+  }
+  passport.authenticate('local', (err, user, info) => {
+    if (err) { return next(err); }
+    if (!user) {
+      req.flash('info', info);
+      return res.redirect('/users/login');
+    }
+    req.logIn(user, (err) => {
+      if (err) { return next(err); }
+      req.flash('success', { msg: 'Success! You are logged in.' });
+      res.redirect('/');
+    });
+  })(req, res, next);
+};
+
 exports.getSignup = (req, res) => {
-  console.log('%s Get signup page', chalk.green('✓'));
   res.render('account/signup', {
     title: 'Create Account'
   });
@@ -58,4 +109,19 @@ exports.postSignup = (req, res, next) => {
         });
     });
   }
+};
+
+exports.getSearchUser = (req, res) => {
+  let regex = new RegExp(req.query.q);
+  User
+    .find({ username: regex })
+    .limit(20)
+    .exec((err, docs) => {
+      if (err) {
+        console.log(err);
+        return res.json({ error_msg: 'An error occurred!' });
+      }
+      res.json(docs);
+    });
+  // TODO: Change response
 };

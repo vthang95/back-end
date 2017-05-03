@@ -9,6 +9,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const sass = require('node-sass-middleware');
 const flash = require('express-flash');
+const logger = require('morgan');
 const expressValidator = require('express-validator');
 const session = require('express-session');
 const passport = require('passport');
@@ -55,6 +56,7 @@ app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'src/views'));
 app.set('view engine', 'pug');
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
@@ -62,7 +64,10 @@ app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
-
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
 // Express session
 app.use(session({
   resave: true,
