@@ -64,10 +64,7 @@ app.use(sass({
   src: path.join(__dirname, 'public'),
   dest: path.join(__dirname, 'public')
 }));
-app.use((req, res, next) => {
-  res.locals.user = req.user;
-  next();
-});
+
 // Express session
 app.use(session({
   resave: true,
@@ -78,6 +75,25 @@ app.use(session({
 // Passport init
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use((req, res, next) => {
+  res.locals.user = req.user;
+  next();
+});
+app.use((req, res, next) => {
+  // After successful login, redirect back to the intended page
+  if (!req.user &&
+      req.path !== '/users/login' &&
+      req.path !== '/users/signup' &&
+      !req.path.match(/^\/auth/) &&
+      !req.path.match(/\./)) {
+    req.session.returnTo = req.path;
+  } else if (req.user &&
+      req.path == '/account') {
+    req.session.returnTo = req.path;
+  }
+  next();
+});
 
 // Connect flash
 app.use(flash());

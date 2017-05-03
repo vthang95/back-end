@@ -32,6 +32,9 @@ passport.deserializeUser((id, done) => {
 });
 
 exports.getLogin = (req, res) => {
+  if (req.user) {
+    return res.redirect('/');
+  }
   res.render('account/login', {
     title: 'Login'
   });
@@ -57,7 +60,7 @@ exports.postLogin = (req, res, next) => {
     req.logIn(user, (err) => {
       if (err) { return next(err); }
       req.flash('success', { msg: 'Success! You are logged in.' });
-      res.redirect('/');
+      res.redirect(req.session.returnTo || '/');
     });
   })(req, res, next);
 };
