@@ -6,5 +6,6 @@ const userController = require('./user.api');
 
 Router.post('/signup', userController.postSignup);
 Router.get('/search', userController.getSearchUserByEmail);
+Router.get('/', userController.getAllUsers);
 
 module.exports = Router;

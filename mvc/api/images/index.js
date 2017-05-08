@@ -9,5 +9,7 @@ Router.post('/', imageController.postImage);
 Router.delete('/image/:id', imageController.deleteImage);
 Router.put('/image/:id', imageController.putImage);
 Router.get('/search', imageController.getSearchImage);
+Router.post('/:id/like', imageController.postLikeImage);
+Router.post('/:id/comment', imageController.postCommentImage);
 
 module.exports = Router;

@@ -17,7 +17,7 @@ exports.postSignup = (req, res, next) => {
     let newUser = new User({
       email: req.body.email.toLowerCase(),
       password: req.body.password,
-      confirmPassword: req.body.confirmPassword 
+      confirmPassword: req.body.confirmPassword
     });
     User.findOne({ email: req.body.email.toLowerCase() }, (err, existingUser) => {
       if (err) return next(err);
@@ -45,7 +45,7 @@ exports.postSignup = (req, res, next) => {
 exports.getSearchUserByEmail = (req, res) => {
   let regex = new RegExp(req.query.q);
   User
-    .find({ email: regex })
+    .find({ email: regex }, { uid: 1, email: 1, _id: 0 })
     .limit(20)
     .exec((err, docs) => {
       if (err) {
@@ -55,3 +55,14 @@ exports.getSearchUserByEmail = (req, res) => {
       res.json(docs);
     });
 };
+
+exports.getAllUsers = (req, res) => {
+  User.find({}, { uid: 1, email: 1, _id: 0 })
+    .exec((err, docs) => {
+      if (err) {
+        console.log(err);
+        return res.json({ error_msg: 'An error occurred!' });
+      }
+      res.json(docs);
+    });
+}
