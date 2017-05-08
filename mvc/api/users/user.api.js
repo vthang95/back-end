@@ -15,6 +15,7 @@ exports.postSignup = (req, res, next) => {
     return res.json({ error: errors });
   } else {
     let newUser = new User({
+      username: req.body.username,
       email: req.body.email.toLowerCase(),
       password: req.body.password,
       confirmPassword: req.body.confirmPassword
@@ -43,9 +44,13 @@ exports.postSignup = (req, res, next) => {
 };
 
 exports.getSearchUserByEmail = (req, res) => {
-  let regex = new RegExp(req.query.q);
+  let regex = new RegExp(req.query.q, 'i');
   User
-    .find({ email: regex }, { uid: 1, email: 1, _id: 0 })
+    .find(
+      { $or: [{'email': regex}, {'username': regex}]  },
+      { uid: 1, email: 1, _id: 0, username: 1, createdAt: 1, updatedAt: 1, 'profile.picture': 1 }
+    )
+    .lean()
     .limit(20)
     .exec((err, docs) => {
       if (err) {
@@ -57,7 +62,9 @@ exports.getSearchUserByEmail = (req, res) => {
 };
 
 exports.getAllUsers = (req, res) => {
-  User.find({}, { uid: 1, email: 1, _id: 0 })
+  User
+    .find({}, { uid: 1, email: 1, _id: 0, username: 1, createdAt: 1, updatedAt: 1, 'profile.picture': 1 })
+    .lean()
     .exec((err, docs) => {
       if (err) {
         console.log(err);

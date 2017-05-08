@@ -72,6 +72,7 @@ exports.getSignup = (req, res) => {
 };
 
 exports.postSignup = (req, res, next) => {
+  req.assert('username', 'Username is not valid').notEmpty();
   req.assert('email', '! Email is required.').notEmpty();
   req.assert('email', '! Email is not valid').isEmail();
   req.assert('password', '! Password is required.').notEmpty();
@@ -86,11 +87,12 @@ exports.postSignup = (req, res, next) => {
     res.redirect('/users/signup');
   } else {
     let newUser = new User({
+      username: req.body.username,
       email: req.body.email.toLowerCase(),
       password: req.body.password,
-      confirmPassword: req.body.confirmPassword 
+      confirmPassword: req.body.confirmPassword
     });
-    
+
     User.findOne({ email: req.body.email.toLowerCase() }, (err, existingUser) => {
       if (err) return next(err);
       if (existingUser) {
@@ -116,8 +118,12 @@ exports.postSignup = (req, res, next) => {
   }
 };
 
+exports.putUpdateUser = (req, res) => {
+  
+};
+
 exports.getSearchUser = (req, res) => {
-  let regex = new RegExp(req.query.q);
+  let regex = new RegExp(req.query.q, 'i');
   User
     .find({ username: regex })
     .limit(20)

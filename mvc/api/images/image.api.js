@@ -30,7 +30,7 @@ exports.getSingleImage = (req, res) => {
       { name: 1, description: 1, imageLink: 1, id: 1, _id: 0, likes: 1, createdAt: 1,
         updatedAt: 1, views: 1, likedBy: 1, comments: 1 }
     )
-    .populate('likedBy', 'likedBy.uid')
+    .populate('likedBy', 'uid username')
     .populate('comments.postedBy', 'uid')
     .lean()
     .exec((err, doc) => {
@@ -88,7 +88,11 @@ exports.putImage = (req, res) => {
     description: req.body.description
   }
 
-  Image.findOneAndUpdate({ id: id }, newImage, (err, doc) => {
+  Image.findOneAndUpdate(
+      { id: id },
+      {$set: { 'name': newImage.name, 'imageLink': newImage.imageLink, 'description': newImage.description } }
+    )
+    .exec((err, doc) => {
     if (err) {
       console.log(err);
       return res.json(err);
@@ -131,7 +135,8 @@ exports.getSearchImage = (req, res) => {
 exports.postLikeImage = (req, res) => {
   let id = req.params.id;
   let uid = req.body.uid;
-  console.log(id, uid)
+
+  // check valid user
   User
     .findOne({ uid: uid })
     .exec((err, doc) => {
@@ -141,21 +146,40 @@ exports.postLikeImage = (req, res) => {
       }
 
       if (!doc) return res.json('An error occurred! User not found!');
+
+      let likedById = doc._id;
       Image
-      .findOneAndUpdate(
-        { id: id },
-        { $push: { "likedBy": doc._id }, $inc: { "likes": 1 } }
-      )
-      .populate('likedBy', 'uid')
-      .select({ likedBy: 1 })
-      .lean()
-      .exec((err, doc) => {
-        if (err) {
-          console.log(err);
-          return res.json({ error_msg: 'An error occurred!' });
-        }
-        res.json({ success_msg: 'Like Successfully!' });
-      });
+        .findOne({ id: id })
+        .populate('likedBy', 'uid')
+        .exec((err, doc) => {
+          if (err) {
+            console.log(err);
+            res.json({ error_msg: 'An error occurred!' })
+          }
+          isDuplicateLike = doc.likedBy.some(ele => {
+            console.log(ele.uid, uid);
+            return ele.uid === uid;
+          });
+          if (!isDuplicateLike ) {
+            Image
+            .findOneAndUpdate(
+              { id: id },
+              { $push: { "likedBy": likedById }, $inc: { "likes": 1 } }
+            )
+            .populate('likedBy', 'uid')
+            .select({ likedBy: 1 })
+            .lean()
+            .exec((err, doc) => {
+              if (err) {
+                console.log(err);
+                return res.json({ error_msg: 'An error occurred!' });
+              }
+              res.json({ success_msg: 'Like Successfully!' });
+            });
+          } else {
+            res.json({ error_msg: 'This image is already liked by this user!' })
+          }
+        })
     });
 };
 

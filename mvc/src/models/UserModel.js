@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema({
     gender: String,
     location: String,
     website: String,
-    picture: String
+    picture: { type: String, default: 'http://www.adsitsolutions.com/images/icons/grey/home-user-icon.png' }
   },
 
   interaction: {
@@ -49,7 +49,7 @@ userSchema.pre('save', function save(next) {
         next();
     });
   });
-}); 
+});
 
 /**
  * Helper method for validating user's password
